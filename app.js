@@ -7,7 +7,6 @@ const port = process.env.PORT || 4000;
 const uName = process.env.USER;
 const uPass = process.env.PASS;
 const path = require('path');
-const __dirname = path.resolve();
 
 
 const app = express();
@@ -31,7 +30,7 @@ if (process.env.NODE_ENV === 'production'){
     app.use(express.static('cpcodesclient/build'));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(_dirname, 'cpcodes_client', 'build'));
+        res.sendFile(path.resolve(__dirname, 'cpcodes_client', 'build'));
     });
 }
 
