@@ -7,6 +7,7 @@ const port = process.env.PORT || 4000;
 const uName = process.env.USER;
 const uPass = process.env.PASS;
 const path = require('path');
+const __dirname = path.resolve();
 
 
 const app = express();
