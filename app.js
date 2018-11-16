@@ -6,6 +6,8 @@ const cors = require('cors');
 const port = process.env.PORT || 4000;
 const uName = process.env.USER;
 const uPass = process.env.PASS;
+const path = require('path');
+
 
 const app = express();
 
@@ -22,7 +24,16 @@ app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }));
+//serve static assets if in production
+if (process.env.NODE_ENV === 'production'){
+    //set static folder
+    app.use(express.static('cpcodesclient/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(_dirname, 'cpcodes_client', 'build'));
+    });
+}
 
 app.listen(port, () => {
-    console.log('now listening for requests on port 4000');
+    console.log(`now listening for requests on port ${ port }`);
 });
