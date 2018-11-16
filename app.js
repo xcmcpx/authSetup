@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production'){
     app.use(express.static('cpcodesclient/build'));
 
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'cpcodes_client', 'build'));
+        res.sendFile(path.resolve(__dirname, 'cpcodes_client', 'build', 'index.html'));
     });
 }
 
