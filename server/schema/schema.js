@@ -27,59 +27,59 @@ const TodoType = new GraphQLObjectType({
         id: {type: GraphQLID},
         desc: {type: GraphQLString},
         complete: {type: GraphQLBoolean},
-        user: {
-            type: UserType,
-            resolve(parent, args){
-                //return _.find(users, {id: parent.userId});
-                return User.findById(parent.userId);
-            }
-        },
+        // user: {
+        //     type: UserType,
+        //     resolve(parent, args){
+        //         //return _.find(users, {id: parent.userId});
+        //         return User.findById(parent.userId);
+        //     }
+        // },
     })
 });
-const UserType = new GraphQLObjectType({
-    name: 'User',
-    fields: () => ({
-        id: {type: GraphQLID},
-        name: {type: GraphQLString},
-        email: {type: GraphQLString},
-        phone: {type: GraphQLString},
-        todos: {
-            type: new GraphQLList(TodoType),
-            resolve(parent, args){
-                //return _.filter(todos, { userId: parent.id });
-                return Todo.find({userId: parent.id});
-            }
-        },
-        lists: {
-            type: new GraphQLList(TodoListType),
-                resolve(parent, args){
-                //return _.filter(todolists, {userId: parent.id});
-                return TodoList.find({userId: parent.id});
-            }
-        }
-    })
-});
-const TodoListType = new GraphQLObjectType({
-    name: 'TodoList',
-    fields: () => ({
-        id: {type: GraphQLID},
-        title: {type: GraphQLString},
-        todos: {
-            type: new GraphQLList(TodoType),
-            resolve(parent, args){
-                //return _.filter(todos, { listId: parent.id });
-                return Todo.find({listId: parent.id});
-            }
-        },
-        user: {
-            type: UserType,
-            resolve(parent, args){
-                //return _.find(users, { id: parent.userId});
-                return User.findById(parent.id);
-            }
-        }
-    })
-});
+// const UserType = new GraphQLObjectType({
+//     name: 'User',
+//     fields: () => ({
+//         id: {type: GraphQLID},
+//         name: {type: GraphQLString},
+//         email: {type: GraphQLString},
+//         phone: {type: GraphQLString},
+//         todos: {
+//             type: new GraphQLList(TodoType),
+//             resolve(parent, args){
+//                 //return _.filter(todos, { userId: parent.id });
+//                 return Todo.find({userId: parent.id});
+//             }
+//         },
+//         lists: {
+//             type: new GraphQLList(TodoListType),
+//                 resolve(parent, args){
+//                 //return _.filter(todolists, {userId: parent.id});
+//                 return TodoList.find({userId: parent.id});
+//             }
+//         }
+//     })
+// });
+// const TodoListType = new GraphQLObjectType({
+//     name: 'TodoList',
+//     fields: () => ({
+//         id: {type: GraphQLID},
+//         title: {type: GraphQLString},
+//         todos: {
+//             type: new GraphQLList(TodoType),
+//             resolve(parent, args){
+//                 //return _.filter(todos, { listId: parent.id });
+//                 return Todo.find({listId: parent.id});
+//             }
+//         },
+//         user: {
+//             type: UserType,
+//             resolve(parent, args){
+//                 //return _.find(users, { id: parent.userId});
+//                 return User.findById(parent.id);
+//             }
+//         }
+//     })
+// });
 
 //define root queries
 const RootQuery = new GraphQLObjectType({
@@ -94,22 +94,22 @@ const RootQuery = new GraphQLObjectType({
                 return Todo.findById(args.id);
             }
         },
-        user: {
-            type: UserType,
-            args: { id: { type: GraphQLID}},
-            resolve(parent, args){
-                //return _.find(users, {id: args.id});
-                return User.findById(args.id);
-            }
-        },
-        todolist: {
-            type: TodoListType,
-            args: { id: { type: GraphQLID}},
-            resolve(parent, args){
-               // return _.find(todolists, {id: args.id});
-               return TodoList.findById(args.id);
-            }
-        },
+        // user: {
+        //     type: UserType,
+        //     args: { id: { type: GraphQLID}},
+        //     resolve(parent, args){
+        //         //return _.find(users, {id: args.id});
+        //         return User.findById(args.id);
+        //     }
+        // },
+        // todolist: {
+        //     type: TodoListType,
+        //     args: { id: { type: GraphQLID}},
+        //     resolve(parent, args){
+        //        // return _.find(todolists, {id: args.id});
+        //        return TodoList.findById(args.id);
+        //     }
+        // },
         todos: {
             type: new GraphQLList(TodoType),
             resolve(parent, args){
@@ -117,20 +117,20 @@ const RootQuery = new GraphQLObjectType({
                return Todo.find();
             }
         },
-        todolists: {
-            type: new GraphQLList(TodoListType),
-            resolve(parent, args){
-               // return todolists;
-               return TodoList.find();
-            }
-        },
-        users: {
-            type: new GraphQLList(UserType),
-            resolve(parent, args){
-                //return users;
-                return User.find();
-            }
-        }
+        // todolists: {
+        //     type: new GraphQLList(TodoListType),
+        //     resolve(parent, args){
+        //        // return todolists;
+        //        return TodoList.find();
+        //     }
+        // },
+        // users: {
+        //     type: new GraphQLList(UserType),
+        //     resolve(parent, args){
+        //         //return users;
+        //         return User.find();
+        //     }
+        // }
     }
 });
 
@@ -138,55 +138,55 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-        addUser: {
-            type: UserType,
-            args: {
-                name: {type: new GraphQLNonNull(GraphQLString)},
-                email: {type: new GraphQLNonNull(GraphQLString)},
-                phone: {type: GraphQLString}
-            },
-            resolve(parents, args){
-                let user = new User({
-                    name: args.name,
-                    email: args.email,
-                    phone: args.phone
-                });
-                return user.save();
-            }
-        },
+        // addUser: {
+        //     type: UserType,
+        //     args: {
+        //         name: {type: new GraphQLNonNull(GraphQLString)},
+        //         email: {type: new GraphQLNonNull(GraphQLString)},
+        //         phone: {type: GraphQLString}
+        //     },
+        //     resolve(parents, args){
+        //         let user = new User({
+        //             name: args.name,
+        //             email: args.email,
+        //             phone: args.phone
+        //         });
+        //         return user.save();
+        //     }
+        // },
         addTodo: {
             type: TodoType,
             args: {
                 desc: {type: new GraphQLNonNull(GraphQLString)},
                 complete: {type: GraphQLBoolean},
-                userId: {type: new GraphQLNonNull(GraphQLID)},
-                listId: {type: new GraphQLNonNull(GraphQLID)}
+                // userId: {type: new GraphQLNonNull(GraphQLID)},
+                // listId: {type: new GraphQLNonNull(GraphQLID)}
             },
             resolve(parents, args){
                 let todo = new Todo({
                     desc: args.desc,
                     complete: args.complete,
-                    userId: args.userId,
-                    listId: args.listId
+                    // userId: args.userId,
+                    // listId: args.listId
                 });
                 return todo.save();
                 }
-            }
-        },
-        addTodoList: {
-            type: TodoListType,
-            args: {
-                title: {type: new GraphQLNonNull(GraphQLString)},
-                userId: {type: new GraphQLNonNull(GraphQLID)}
             },
-            resolve(parents, args){
-                let todolist = new TodoList({
-                    title: args.title,
-                    userId: args.userId
-                });
-                return todolist.save();
-            }
-        }
+        // addTodoList: {
+        //     type: TodoListType,
+        //     args: {
+        //         title: {type: new GraphQLNonNull(GraphQLString)},
+        //         userId: {type: new GraphQLNonNull(GraphQLID)}
+        //     },
+        //     resolve(parents, args){
+        //         let todolist = new TodoList({
+        //             title: args.title,
+        //             userId: args.userId
+        //         });
+        //         return todolist.save();
+        //     }
+        // }
+    }
 });
 
 module.exports = new GraphQLSchema({
