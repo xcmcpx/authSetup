@@ -25,15 +25,15 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 
-//serve static assets if in production
-if (process.env.NODE_ENV === 'production'){
-    //set static folder
-    app.use(express.static('cpcodesclient/build'));
 
-    app.get('/', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'cpcodes_client', 'build', 'index.html'));
-    });
-}
+
+    //set static folder
+app.use(express.static('public'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 
 app.listen(port, () => {
     console.log(`now listening for requests on port ${ port }`);
