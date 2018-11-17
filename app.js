@@ -23,6 +23,8 @@ app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }));
+
+
 //serve static assets if in production
 if (process.env.NODE_ENV === 'production'){
     //set static folder
