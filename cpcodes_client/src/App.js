@@ -17,9 +17,14 @@ const client = new ApolloClient({
 class App extends Component {
   state = { activeItem: 'home' };
 
+    componentDidMount(){
+      document.title="Patrick Programs"
+    };
+
     handleItemClick = (e, { name }) => this.setState({ activeItem: name });
     handleShowClick = () => this.setState({ visible: true });
     handleSidebarHide = () => this.setState({ visible: false });
+
   render() {
     const { activeItem } = this.state
     const { visible } = this.state
