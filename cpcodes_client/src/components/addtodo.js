@@ -37,6 +37,8 @@ class AddTodo extends Component {
                 <div className="field">
                     <label>New Todo:</label>
                     <input type="text" onChange={(e)=> this.setState({ desc: e.target.value })} />
+                    <input type="text" onChange={(e)=> this.setState({ desc: e.target.value })} />
+                    <input type="text" onChange={(e)=> this.setState({ desc: e.target.value })} />
                     <button>+</button>
                 </div>
             </form>

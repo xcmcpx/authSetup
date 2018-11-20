@@ -11,7 +11,7 @@ class TodoDetails extends Component {
                 <div>
                     <h2> {todo.desc }</h2>
                     <p>{ todo.complete.toString() }</p>
-                    <p>{ todo.id }</p>
+                    <p>{ todo.userId.id }</p>
                 </div>
             );
         } else {

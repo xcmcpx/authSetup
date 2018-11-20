@@ -6,6 +6,8 @@ const cors = require('cors');
 const port = process.env.PORT || 4000;
 const path = require('path');
 const db = require('./config/keys').mongoURI;
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 
 const app = express();
@@ -13,23 +15,27 @@ const app = express();
 //allow cross origin requests
 app.use(cors());
 require("dotenv").config();
+
+
 //connected to the database and log when connection received.
 mongoose.connect(db, { useNewUrlParser: true});
 mongoose.connection.once('open', () => {
     console.log('connected to database!');
 });
+
+//middlewares
 //tell our server how to understand the graphql language
 app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }));
-
-
-
-
-    //set static folder
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+ //set static folder
 app.use(express.static('public'));
 
+
+//handle routes
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });

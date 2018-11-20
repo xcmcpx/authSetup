@@ -61,6 +61,12 @@ class App extends Component {
                 onClick={this.handleItemClick}
                 as={Link} to='/contact'
               />
+              <Menu.Item
+                name='Login'
+                active={activeItem === 'Login'}
+                onClick={this.handleItemClick}
+                as={Link} to='/login'
+              />
               </Menu.Menu>
             </Menu>
             <Sidebar.Pushable>

@@ -15,6 +15,9 @@ const getTodoQuery = gql`
         id
         desc
         complete
+        userId{
+          id
+        }
       }
     }
 `

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import LandingPage from './landingpage';
 import Resume from './resume';
@@ -7,6 +7,8 @@ import About from './about';
 import Projects from './projects';
 import Contact from './contact';
 import ShowTodoList from './showTodoList';
+import Login from './login';
+
 
 const Main = () => (
     <Switch>
@@ -16,6 +18,7 @@ const Main = () => (
         <Route path="/projects" component ={ Projects } />
         <Route path="/resume" component ={ Resume } />
         <Route path="/todolist" component ={ ShowTodoList }/>
+        <Route path="/login" component = { Login } />
     </Switch>
 )
 
