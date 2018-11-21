@@ -1,3 +1,4 @@
 module.exports = {
-    mongoURI: 'mongodb://cpat3:X22dPqCP!m@ds161856.mlab.com:61856/db-chrispcodes'
+    mongoURI: 'mongodb://localhost/chrispcodes_test',
+    JWT_SECRET: 'The blackbird sleeps at dawn.'
 }

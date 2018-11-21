@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import LandingPage from './landingpage';
 import Resume from './resume';
