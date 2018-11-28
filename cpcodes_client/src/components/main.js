@@ -7,7 +7,6 @@ import About from './about';
 import Projects from './projects';
 import Contact from './contact';
 import ShowTodoList from './showTodoList';
-import Login from './login';
 
 
 const Main = () => (
@@ -18,7 +17,6 @@ const Main = () => (
         <Route path="/projects" component ={ Projects } />
         <Route path="/resume" component ={ Resume } />
         <Route path="/todolist" component ={ ShowTodoList }/>
-        <Route path="/login" component = { Login } />
     </Switch>
 )
 

@@ -3,14 +3,15 @@ const JWTStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
 const GooglePlusTokenStrategy = require('passport-google-plus-token');
-const { JWT_SECRET } = require('./config/keys');
+const FacebookTokenStrategy = require('passport-facebook-token');
+const config = require('./config/keys');
 const User = require('./models/user');
 
 //JSON WEB TOKENS STRATEGEY
 passport.use(new JWTStrategy({
     //define where the token comes from and the secret we use
     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-    secretOrKey: JWT_SECRET
+    secretOrKey: config.JWT_SECRET
 }, async (payload, done) => {
     try{
         //find user specified in token
@@ -28,8 +29,8 @@ passport.use(new JWTStrategy({
 
 //GOOGLE PLUS STRATEGY
 passport.use('googleToken', new GooglePlusTokenStrategy({
-    clientID: '365872876065-48sl010c7c383seal4j1oldbk1mnkjpv.apps.googleusercontent.com',
-    clientSecret: 'qvBWXpt-DDZ_uNlpppKVKBK2'
+    clientID: config.oauth.google.clientID,
+    clientSecret: config.oauth.google.clientSecret
 }, async (accessToken, refreshToken, profile, done) => {
     try{
         console.log('accessToken', accessToken);
@@ -58,6 +59,36 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         done(error, false, error.message);
     }
 
+}));
+
+//FACEBOOK STRATEGY
+passport.use('facebookToken', new FacebookTokenStrategy({
+    clientID: config.oauth.facebook.clientID,
+    clientSecret: config.oauth.facebook.clientSecret
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        console.log('accessToken', accessToken);
+        console.log('refreshToken', refreshToken);
+        console.log('profile', profile);
+
+        const existingUser = await User.findOne({ 'facebook.id': profile.id });
+        if(existingUser) {
+            return done(null, existingUser);
+        }
+
+        const newUser = new User({ 
+            method: 'facebook',
+            facebook: {
+                id: profile.id,
+                email: profile.emails[0].value
+            }
+        });
+
+        await newUser.save();
+        done(null, newUser);
+    }catch(error){
+        done(error, false, error.message);
+    }
 }));
 
 //LOCAL STRATEGY

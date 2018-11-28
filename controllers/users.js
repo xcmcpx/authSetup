@@ -51,6 +51,11 @@ module.exports = {
         res.status(200).json({ token });
     },
 
+    facebookOAuth: async (req, res, next) => {
+        const token = signToken(req.user);
+        res.status(200).json({ token });
+    },
+
     todolist: async(req, res, next) => {
         console.log("got here!!");
     }
