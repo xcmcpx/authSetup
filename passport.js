@@ -2,6 +2,7 @@ const passport = require('passport');
 const JWTStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local').Strategy;
+const GooglePlusTokenStrategy = require('passport-google-plus-token');
 const { JWT_SECRET } = require('./config/keys');
 const User = require('./models/user');
 
@@ -25,7 +26,41 @@ passport.use(new JWTStrategy({
     }
 }));
 
-//LCOAL STRATEGY
+//GOOGLE PLUS STRATEGY
+passport.use('googleToken', new GooglePlusTokenStrategy({
+    clientID: '365872876065-48sl010c7c383seal4j1oldbk1mnkjpv.apps.googleusercontent.com',
+    clientSecret: 'qvBWXpt-DDZ_uNlpppKVKBK2'
+}, async (accessToken, refreshToken, profile, done) => {
+    try{
+        console.log('accessToken', accessToken);
+        console.log('refreshToken', refreshToken);
+        console.log('profile', profile);
+
+        //check whether this current user exists in our DB
+        const existingUser = await User.findOne({ 'google.id': profile.id });
+        if(existingUser) {
+            console.log('User already exisits in our DB');
+            return done(null, existingUser);
+        }
+        //if new account create new document in collection
+        console.log("User does not exist, we are creating one.");
+        const newUser = new User({
+            method: 'google',
+            google: {
+                id: profile.id,
+                email: profile.emails[0].value
+            }
+        });
+
+        await newUser.save();
+        done(null, newUser);
+    }catch(error) {
+        done(error, false, error.message);
+    }
+
+}));
+
+//LOCAL STRATEGY
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'pass'
@@ -33,7 +68,7 @@ passport.use(new LocalStrategy({
 }, async (email, password, done) => {
     try{
         //find user when given email
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ "local.email": email });
         //if no user with email, handle it
         if(!user){
             return done(null, false);
